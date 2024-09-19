@@ -36,6 +36,12 @@ INSERT INTO tb_usuario (nombres, correo, contrasena, token, fecha_creacion, fech
 
 # ******************************************************************************
 
+INSERT INTO tb_cliente (cliente, dni, celular, correo, fecha_creacion, fecha_actualizacion) VALUES
+('ELBA BEJAR', '70541242', '984998877', 'elbita@gmail.com', now(), null),
+('GEPSI SARABIA', '71241544', '993441542', 'gepsi@gmail.com', now(), null);
+
+# ******************************************************************************
+
 SELECT * FROM tb_cliente;
 SELECT * FROM tb_empleado;
 SELECT * FROM tb_producto;

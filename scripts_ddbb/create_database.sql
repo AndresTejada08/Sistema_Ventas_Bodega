@@ -88,25 +88,27 @@ fecha_creacion DATETIME,
 fecha_actualizacion DATETIME,
 PRIMARY KEY(id_cliente))ENGINE=InnoDB;
 
-CREATE TABLE tb_venta (
-id_venta INT AUTO_INCREMENT NOT NULL,
-total INT NOT NULL,
-fecha_creacion DATETIME,
-fecha_actualizacion DATETIME,
-id_cliente INT NOT NULL,
-FOREIGN KEY (id_cliente) REFERENCES tb_cliente(id_cliente) ON DELETE NO ACTION ON UPDATE NO ACTION,
-PRIMARY KEY(id_venta))ENGINE=InnoDB;
-
 CREATE TABLE tb_carrito (
 id_carrito INT AUTO_INCREMENT NOT NULL,
 cantidad INT NOT NULL,
 fecha_creacion DATETIME,
 fecha_actualizacion DATETIME,
-id_venta INT NOT NULL,
+nro_venta INT NOT NULL,
 id_producto INT NOT NULL,
-FOREIGN KEY (id_venta) REFERENCES tb_venta(id_venta) ON DELETE NO ACTION ON UPDATE NO ACTION,
+INDEX (nro_venta),
 FOREIGN KEY (id_producto) REFERENCES tb_producto(id_producto) ON DELETE NO ACTION ON UPDATE NO ACTION,
 PRIMARY KEY(id_carrito))ENGINE=InnoDB;
+
+CREATE TABLE tb_venta (
+id_venta INT AUTO_INCREMENT NOT NULL,
+total INT NOT NULL,
+fecha_creacion DATETIME,
+fecha_actualizacion DATETIME,
+nro_venta INT NOT NULL,
+id_cliente INT NOT NULL,
+FOREIGN KEY (nro_venta) REFERENCES tb_carrito(nro_venta) ON DELETE NO ACTION ON UPDATE NO ACTION,
+FOREIGN KEY (id_cliente) REFERENCES tb_cliente(id_cliente) ON DELETE NO ACTION ON UPDATE NO ACTION,
+PRIMARY KEY(id_venta))ENGINE=InnoDB;
 
   
   

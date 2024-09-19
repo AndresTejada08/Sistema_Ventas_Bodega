@@ -156,6 +156,7 @@ include '../app/controllers/compras/lista-compras.php';
                             </div>
 
                             <hr>
+                            <!-- Datos Categoría -->
                             <div class="row">
                                 <div class="col-md-10">
                                     <div class="row">
@@ -245,6 +246,8 @@ include '../app/controllers/compras/lista-compras.php';
                                     </div>
                                 </div>
                             </div>
+                            <!--End Datos Categoría -->
+
                             <hr>
                             <div style="display: flex;">
                                 <h5>Datos del Proveedor</h5>
@@ -339,7 +342,7 @@ include '../app/controllers/compras/lista-compras.php';
                             </div>
                             
                             <hr>
-                            <!---->
+                            <!-- Datos Proveedor -->
                             <div class="row">
                                 <div class="col-md-3">
                                     <div class="form-group">
@@ -381,8 +384,9 @@ include '../app/controllers/compras/lista-compras.php';
                                     </div>
                                 </div>
                             </div>
+                            <!--End Datos Proveedor -->
+
                             <hr>
-                            <!---->
                             <div class="row">
                                 <div class="col-md-1">
                                     <div class="form-group">
