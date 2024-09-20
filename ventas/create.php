@@ -180,6 +180,7 @@ include '../app/controllers/clientes/lista-clientes.php';
                             <!-- Fin Modal Visualizar Producto -->
 
                             <br><br>
+                            <!-- Datos Producto -->
                             <div class="table-responsive">
                                 <table class="table table-bordered table-hover table-striped">
                                     <thead>
@@ -194,7 +195,8 @@ include '../app/controllers/clientes/lista-clientes.php';
                                     <tbody>
                                         <?php
                                         $nro_venta = $cont_ventas + 1;
-                                        $sql_carrito = "SELECT C.*, P.producto, P.descripcion, P.precio_venta FROM tb_carrito C INNER JOIN tb_producto P ON C.id_producto = P.id_producto 
+                                        $sql_carrito = "SELECT C.*, P.id_producto, P.producto, P.descripcion, P.precio_venta, P.stock FROM tb_carrito C 
+                                                        INNER JOIN tb_producto P ON C.id_producto = P.id_producto 
                                                         WHERE nro_venta = '$nro_venta' ORDER BY C.id_carrito ASC";
                                         $query_carrito = $pdo->prepare($sql_carrito);
                                         $query_carrito->execute();
@@ -212,10 +214,16 @@ include '../app/controllers/clientes/lista-clientes.php';
                                             $precio_unit_total = $precio_unit_total + floatval($tabla_carrito['precio_venta']);
                                             ?>
                                         <tr>
-                                            <td><center><?= $cont_carrito; ?></center></td>
+                                            <td>
+                                                <center><?= $cont_carrito; ?></center>
+                                                <input type="text" name="" id="id_producto<?= $cont_carrito; ?>" value="<?= $tabla_carrito['id_producto'] ?>" hidden>
+                                            </td>
                                             <td><?= $tabla_carrito['producto']; ?></td>
                                             <td><?= $tabla_carrito['descripcion']; ?></td>
-                                            <td><center><?= $tabla_carrito['cantidad']; ?></center></td>
+                                            <td>
+                                                <center><span id="cantidad<?= $cont_carrito; ?>"><?= $tabla_carrito['cantidad']; ?></span></center>
+                                                <input type="text" name="" id="stock<?= $cont_carrito; ?>" value="<?= $tabla_carrito['stock']; ?>" hidden>
+                                            </td>
                                             <td><center><?= $tabla_carrito['precio_venta']; ?></center></td>
                                             <td>
                                                 <center>
@@ -246,6 +254,7 @@ include '../app/controllers/clientes/lista-clientes.php';
                                     </tbody>
                                 </table>
                             </div>
+                            <!-- Fin Datos Producto -->
                         </div>
                     </div>
                 </div>
@@ -415,6 +424,7 @@ include '../app/controllers/clientes/lista-clientes.php';
                             <hr>
                             <div class="form-group">
                                 <button id="btn_registrar_venta" class="btn btn-primary btn-block">Registrar Venta</button>
+                                <div id="rpta_venta"></div>
                                 <script>
                                     $('#btn_registrar_venta').click(function() {
                                         var id_cliente = $('#id_cliente').val();
@@ -424,9 +434,36 @@ include '../app/controllers/clientes/lista-clientes.php';
                                         if(id_cliente == "") {
                                             alert("Debe seleccionar un cliente");
                                         } else {
-                                            alert('todo ok');
+                                            actualizar_stock();
+                                            registrar_venta();
                                         }
-                                        
+
+                                        function actualizar_stock() {
+                                            var i = 1;
+                                            var n = '<?= $cont_carrito; ?>'
+
+                                            for (var i = 1; i <= n; i++) {
+                                                var a = '#id_producto'+i;
+                                                var b = '#stock'+i;
+                                                var c = '#cantidad'+i;
+                                                
+                                                var id_producto = $(a).val();
+                                                var stock = $(b).val();
+                                                var cantidad = $(c).html();
+
+                                                var stock_calculado = parseFloat(stock - cantidad);
+
+                                                var url = "../app/controllers/ventas/actualizar-stock.php";
+                                                $.get(url, {id_producto:id_producto, stock_calculado:stock_calculado}, function(datos) { });
+                                            }
+                                        }
+
+                                        function registrar_venta() {
+                                            var url = "../app/controllers/ventas/crear-ventas.php";
+                                            $.get(url, {total_cancelar:total_cancelar, nro_venta:nro_venta, id_cliente:id_cliente}, function(datos) {
+                                                $('#rpta_venta').html(datos);
+                                            });
+                                        }
                                     })
                                 </script>
                             </div>
