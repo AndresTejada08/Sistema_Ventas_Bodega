@@ -191,8 +191,8 @@ include '../app/controllers/ventas/lista-ventas.php';
                                             <td>
                                                 <center>
                                                     <div class="btn-group">
-                                                        <a href="<?php echo $URL; ?>/compras/show.php?id=<?php echo $id_compra; ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i> Mostrar</a>
-                                                        <a href="<?php echo $URL; ?>/compras/delete.php?id=<?php echo $id_compra; ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Borrar</a>
+                                                        <a href="<?php echo $URL; ?>/ventas/show.php?id=<?php echo $id_venta; ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i> Mostrar</a>
+                                                        <a href="<?php echo $URL; ?>/ventas/delete.php?id=<?php echo $id_venta; ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Borrar</a>
                                                     </div>
                                                 </center>
                                             </td>
