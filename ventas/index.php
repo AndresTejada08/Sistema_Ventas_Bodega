@@ -192,7 +192,7 @@ include '../app/controllers/ventas/lista-ventas.php';
                                                 <center>
                                                     <div class="btn-group">
                                                         <a href="<?php echo $URL; ?>/ventas/show.php?id=<?php echo $id_venta; ?>" type="button" class="btn btn-info"><i class="fa fa-eye"></i> Mostrar</a>
-                                                        <a href="<?php echo $URL; ?>/ventas/delete.php?id=<?php echo $id_venta; ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Borrar</a>
+                                                        <a href="<?php echo $URL; ?>/ventas/delete.php?id=<?php echo $id_venta; ?>&nro_venta=<?= $nro_venta; ?>" type="button" class="btn btn-danger"><i class="fa fa-trash"></i> Borrar</a>
                                                     </div>
                                                 </center>
                                             </td>

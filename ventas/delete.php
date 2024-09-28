@@ -1,11 +1,11 @@
 <?php
-$id_venta = $_GET['id'];
-
 include '../app/config/conexion.php';
 include '../layout/session.php';
 include '../layout/part1.php';
 include '../app/controllers/ventas/mostrar-venta.php';
 include '../app/controllers/clientes/mostrar-cliente.php';
+
+include '../app/controllers/almacen/lista-productos.php';
 
 ?>
 
@@ -16,7 +16,7 @@ include '../app/controllers/clientes/mostrar-cliente.php';
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-12">
-                    <h1 class="m-0">Detalle de la Venta Nro. <?= $nro_venta; ?></h1>
+                    <h1 class="m-0">Detalle de la Venta Nro. <?= $nro_venta; ?> a Eliminar</h1>
                 </div>
             </div><!-- /.row -->
         </div><!-- /.container-fluid -->
@@ -28,7 +28,7 @@ include '../app/controllers/clientes/mostrar-cliente.php';
         <div class="container-fluid">
             <div class="row">
                 <div class="col-md-12">
-                    <div class="card card-outline card-primary">
+                    <div class="card card-outline card-danger">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fa fa-shopping-bag"></i> Venta Nro. <input type="text" style="text-align: center;" value="<?= $nro_venta; ?>" disabled></h3>
                             <div class="card-tools">
@@ -108,7 +108,7 @@ include '../app/controllers/clientes/mostrar-cliente.php';
             </div>
             <div class="row">
                 <div class="col-md-9">
-                    <div class="card card-outline card-primary">
+                    <div class="card card-outline card-danger">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fa fa-user-check"></i> Datos del Cliente</h3>
                             <div class="card-tools">
@@ -152,7 +152,7 @@ include '../app/controllers/clientes/mostrar-cliente.php';
                 </div>
 
                 <div class="col-md-3">
-                    <div class="card card-outline card-primary">
+                    <div class="card card-outline card-danger">
                         <div class="card-header">
                             <h3 class="card-title"><i class="fa fa-shopping-basket"></i> Registrar Venta</h3>
                             <div class="card-tools">
@@ -165,6 +165,46 @@ include '../app/controllers/clientes/mostrar-cliente.php';
                             <div class="form-group">
                                 <label for="">Total a Cancelar</label>
                                 <input type="text" class="form-control" name="" id="total_cancelar" value="<?= $precio_total; ?>" disabled>
+                            </div>
+                            <div class="form-group">
+                                <button id="btn_anular_venta" class="btn btn-danger btn-block">Anular Venta</button>
+                                <div id="rpta_venta"></div>
+                                <script>
+                                    $('#btn_anular_venta').click(function() {
+                                        var id_venta = '<?= $id_venta; ?>';
+                                        var nro_venta = '<?= $nro_venta; ?>';
+                                        
+                                        actualizar_stock();
+                                        anular_venta();
+
+                                        function actualizar_stock() {
+                                            var i = 1;
+                                            var n = '<?= $cont_carrito; ?>'
+
+                                            for (var i = 1; i <= n; i++) {
+                                                var a = '#id_producto'+i;
+                                                var b = '#stock'+i;
+                                                var c = '#cantidad'+i;
+                                                
+                                                var id_producto = $(a).val();
+                                                var stock = $(b).val();
+                                                var cantidad = $(c).html();
+
+                                                var stock_calculado = parseFloat(parseInt(stock) + parseInt(cantidad));
+
+                                                var url = "../app/controllers/ventas/actualizar-stock.php";
+                                                $.get(url, {id_producto:id_producto, stock_calculado:stock_calculado}, function(datos) { });
+                                            }
+                                        }
+
+                                        function anular_venta() {
+                                            var url = "../app/controllers/ventas/eliminar-venta.php";
+                                            $.get(url, {id_venta:id_venta, nro_venta:nro_venta}, function(datos) {
+                                                $('#rpta_venta').html(datos);
+                                            });
+                                        }
+                                    });
+                                </script>
                             </div>
                             <!-- Fin Datos Venta -->
 
